@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import './CaptureImage.css';
-import overlayImage from './assets/overlay.png'; // Ensure this path is correct
-import CaptureIcon from './assets/Capture.png'; // Import Capture icon
-import ReplaceIcon from './assets/Retake.png'; // Import Replace icon
-import SaveIcon from './assets/Save.svg'; // Import Save icon
-import SubmitIcon from './assets/Submit.png'; // Import Submit icon
-import BackButton from './assets/Back.png'; // Import Back button icon
-import logo2 from './assets/logo2.png'; // Import logo2
+import overlayImage from './assets/overlay.png';
+import CaptureIcon from './assets/Capture.png';
+import ReplaceIcon from './assets/Retake.png';
+import SaveIcon from './assets/Save.svg';
+import SubmitIcon from './assets/Submit.png';
+import BackButton from './assets/Back.png';
+import logo2 from './assets/logo2.png';
 
 const CaptureImage = ({ userInfo }) => {
     const [image, setImage] = useState(null);
@@ -24,7 +24,7 @@ const CaptureImage = ({ userInfo }) => {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
             setImage(imageSrc);
-            applyOverlay(imageSrc); // Apply overlay directly after capturing
+            applyOverlay(imageSrc);
         } else {
             setErrorMessage('Failed to capture image. Please try again.');
         }
@@ -43,17 +43,10 @@ const CaptureImage = ({ userInfo }) => {
 
         img.onload = () => {
             overlay.onload = () => {
-                // Set canvas dimensions to match the image dimensions
                 canvas.width = img.width;
                 canvas.height = img.height;
-
-                // Draw the captured image
                 ctx.drawImage(img, 0, 0, img.width, img.height);
-
-                // Draw the overlay on top of the captured image
-                ctx.drawImage(overlay, 0, 0, img.width, img.height); // Overlay on top of the captured image
-
-                // Set the overlayed image as a data URL
+                ctx.drawImage(overlay, 0, 0, img.width, img.height);
                 setOverlayedImage(canvas.toDataURL());
             };
         };
@@ -79,7 +72,6 @@ const CaptureImage = ({ userInfo }) => {
         const formData = new FormData();
         formData.append('image', blob, 'captured_image.png');
 
-        // Add user information to the form data
         if (userInfo && userInfo.name && userInfo.email && userInfo.department) {
             formData.append('name', userInfo.name);
             formData.append('email', userInfo.email);
@@ -100,12 +92,12 @@ const CaptureImage = ({ userInfo }) => {
             if (res.status === 200) {
                 setSuccessMessage('Image uploaded successfully! An email with your photo has been sent to you.');
                 setTimeout(() => {
-                    navigate('/register'); // Redirect to registration or another page
+                    navigate('/register');
                 }, 2000);
             }
         } catch (error) {
-            console.error('Image upload error:', error);
-            setErrorMessage('Failed to upload image. Please try again.');
+            console.error('Image upload error:', error.response ? error.response.data : error.message);
+            setErrorMessage(error.response?.data?.error || 'Failed to upload image. Please try again.');
         }
     };
 
@@ -115,18 +107,18 @@ const CaptureImage = ({ userInfo }) => {
             setErrorMessage('Please capture an image before saving.');
             return;
         }
-        
+
         const link = document.createElement('a');
-        link.href = overlayedImage; // Use the overlayed image's data URL
-        link.download = 'captured_image_with_overlay.png'; // Set the file name
+        link.href = overlayedImage;
+        link.download = 'captured_image_with_overlay.png';
         document.body.appendChild(link);
-        link.click(); // Trigger the download
+        link.click();
         document.body.removeChild(link);
     };
 
     // Back navigation
     const handleBack = () => {
-        navigate(-1); // Go back to the previous page
+        navigate(-1);
     };
 
     return (
@@ -140,7 +132,7 @@ const CaptureImage = ({ userInfo }) => {
                         ref={webcamRef}
                         audio={false}
                         screenshotFormat="image/png"
-                        mirrored={false}  // Disable mirroring
+                        mirrored={false}
                         className="webcam"
                     />
                 ) : (
@@ -164,13 +156,13 @@ const CaptureImage = ({ userInfo }) => {
                 ) : (
                     <>
                         <button onClick={handleRetake} className="action-button back-button">
-                            <img src={ReplaceIcon} alt="Replace" className='btnAction' /> {/* Replace icon */}
+                            <img src={ReplaceIcon} alt="Replace" className='btnAction' />
                         </button>
                         <button onClick={handleUpload} className="action-button submit-button">
-                            <img src={SubmitIcon} alt="Submit" className='btnAction' /> {/* Submit icon */}
+                            <img src={SubmitIcon} alt="Submit" className='btnAction' />
                         </button>
                         <button onClick={handleSave} className="action-button save-button">
-                            <img src={SaveIcon} alt="Save" className='btnAction' /> {/* Save icon */}
+                            <img src={SaveIcon} alt="Save" className='btnAction' />
                         </button>
                     </>
                 )}
