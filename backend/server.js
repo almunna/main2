@@ -7,8 +7,7 @@ import MongoStore from 'connect-mongo';
 import imageRoutes from './routes/imageRoutes.js';
 import path from 'path';
 dotenv.config();
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+
 
 const app = express();
 const PORT = process.env.PORT;
