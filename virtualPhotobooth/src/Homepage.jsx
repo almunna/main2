@@ -13,7 +13,9 @@ const HomePage = () => {
 
     return (
         <div className="home-container">
-            
+            <img src={logo2} alt="Company Logo 2" className="logo" /> {/* Company Logo 2 on top */}
+            <h2 className="title">SUSTAINABILITY E-COMMITMENT</h2>
+            <p className="subtitle">PHOTO COLLAGE</p>
             <p className="description">We Are Committed To Sustainability</p>
             <img src={logo1} alt="Company Logo 1" className="logo1" /> {/* Company Logo 1 in the middle */}
             <button className="start-button" onClick={handleNavigateToAgreement}>Tap to Start</button>
