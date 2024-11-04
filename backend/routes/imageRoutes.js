@@ -71,8 +71,15 @@ router.post('/register', (req, res) => {
     req.session.email = email;
     req.session.department = department;
 
-    res.status(200).json({ message: 'Registration successful' });
+    req.session.save((err) => {
+        if (err) {
+            console.error('Session save error:', err);
+            return res.status(500).json({ error: 'Failed to save session data' });
+        }
+        res.status(200).json({ message: 'Registration successful' });
+    });
 });
+
 
 // Configure Nodemailer transporter
 const transporter = nodemailer.createTransport({

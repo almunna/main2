@@ -7,6 +7,8 @@ import MongoStore from 'connect-mongo';
 import imageRoutes from './routes/imageRoutes.js';
 import path from 'path';
 dotenv.config();
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -24,14 +26,14 @@ app.use('/uploads', express.static('uploads')); // Serve static files from 'uplo
 // Configure session middleware
 // Session configuration in server.js
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a secure key
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // Use MongoDB for session storage
-    cookie:   { 
-        secure: process.env.NODE_ENV === 'production', // Set to true for HTTPS in production
-        httpOnly: true, // Adds security by restricting JavaScript access
-        sameSite: 'Lax' // Adjust to 'None' if working with third-party cookies
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // Ensure MongoDB URI is correct
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies only in production
+        httpOnly: true,
+        sameSite: 'Lax', // or 'None' if working with cross-site cookies
     }
 }));
 
