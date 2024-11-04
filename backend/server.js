@@ -15,7 +15,8 @@ const __dirname = path.resolve();
 // Middleware
 app.use(cors({
     origin: 'https://main2-2.onrender.com/', // Adjust to your frontend URL
-    credentials: true // Allow cookies to be sent
+    credentials: true, // Allow cookies to be sent
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json()); // Parse JSON bodies
 app.use('/uploads', express.static('uploads')); // Serve static files from 'uploads' directory
