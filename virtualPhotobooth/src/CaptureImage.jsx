@@ -90,7 +90,7 @@ const CaptureImage = ({ userInfo }) => {
         }
 
         try {
-            const res = await axios.post('https://main2-2.onrender.com/upload', formData, {
+            const res = await axios.post('https://main2-2.onrender.com/api/upload', formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
