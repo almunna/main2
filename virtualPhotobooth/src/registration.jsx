@@ -36,7 +36,7 @@ const Registration = ({ setUserInfo }) => {
         setErrorMessage('');
 
         try {
-            const response = await axios.post('https://main2-2.onrender.com/register', {
+            const response = await axios.post('https://main2-2.onrender.com/api/register', {
                 name,
                 email,
                 department,
